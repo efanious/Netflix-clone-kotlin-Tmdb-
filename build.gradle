@@ -16,3 +16,10 @@ buildscript {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+
+ext {
+    // Networking
+    retrofit_version = '2.4.0'
+    okhttp_version = '3.11.0'
+}
