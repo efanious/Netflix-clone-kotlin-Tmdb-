@@ -20,6 +20,7 @@ task clean(type: Delete) {
 
 ext {
     // Networking
-    retrofit_version = '2.4.0'
-    okhttp_version = '3.11.0'
+    retrofit_version = '2.9.0'
+    okhttp_version = '4.2.1'
+    api_key = "a42804cc4643c432ddbb2090891cb875"
 }
