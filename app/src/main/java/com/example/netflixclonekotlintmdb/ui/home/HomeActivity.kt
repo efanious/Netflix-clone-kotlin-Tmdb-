@@ -23,7 +23,7 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var testTextView: TextView
 
     private val viewModel: HomeViewModel by lazy {
-        ViewModelProvider(this).get(HomeViewModel::class.java)
+        ViewModelProvider(this)[HomeViewModel::class.java]
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,6 +34,10 @@ class HomeActivity : AppCompatActivity() {
 
         viewModel.response.observe(this, {
             testTextView.text = it.total_pages.toString()
+        })
+
+        viewModel.errorResponse.observe(this, {
+            Toast.makeText(this, "ERROR :$it", Toast.LENGTH_LONG).show()
         })
 
     }

@@ -4,15 +4,19 @@ import com.example.netflixclonekotlintmdb.BuildConfig
 import com.example.netflixclonekotlintmdb.data.remote.response.TrendingMoviesResponse
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import io.reactivex.Single
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
-private const val BASE_URL = "https://api.themoviedb.org/3/"
+private const val BASE_URL = "https://api.themoviedb.org"
+
+private const val API_KEY = ""
 
 
 private val moshi = Moshi.Builder()
@@ -37,11 +41,14 @@ private val retrofit = Retrofit.Builder()
 
 interface NetworkService {
 
-    @GET("/trending/all/week?api_key=&language=en-US")
-    suspend fun getTrendingMovies(): TrendingMoviesResponse
 
+    @GET("/3/trending/{media_type}/{time_window}")
+    suspend fun getTrendingMovies(
+        @Path("media_type") mediaType: String = "all",
+        @Path("time_window") timeWindow: String = "week",
+        @Query("api_key") apiKey: String = API_KEY,
+    ): TrendingMoviesResponse
 
-//@Path("API_KEY") apiKey: String = API_KEY)
 }
 
 
