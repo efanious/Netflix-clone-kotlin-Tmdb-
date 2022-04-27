@@ -23,15 +23,30 @@ class HomeViewModel: ViewModel() {
         get() = _errorResponse
 
     init {
-        getMovies()
     }
 
-    private fun getMovies() {
+    fun getTrendingMovies() {
 
         viewModelScope.launch {
             try {
 
                 _response.value = AppMainApi.retrofitService.getTrendingMovies()
+
+            } catch (e: Exception) {
+
+                _errorResponse.value = e.message
+
+            }
+        }
+    }
+
+
+    fun getTopRatedTVShows() {
+
+        viewModelScope.launch {
+            try {
+
+                _response.value = AppMainApi.retrofitService.getTopRatedTV()
 
             } catch (e: Exception) {
 

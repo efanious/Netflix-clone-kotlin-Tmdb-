@@ -9,18 +9,27 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.netflixclonekotlintmdb.R
 import com.example.netflixclonekotlintmdb.data.remote.AppMainApi
 import com.example.netflixclonekotlintmdb.data.remote.response.TrendingMoviesResponse
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
 class HomeActivity : AppCompatActivity() {
 
-    private lateinit var testTextView: TextView
+    //    private lateinit var testTextView: TextView
+    private lateinit var navController: NavController
+    private lateinit var appBarConfiguration: AppBarConfiguration
 
     private val viewModel: HomeViewModel by lazy {
         ViewModelProvider(this)[HomeViewModel::class.java]
@@ -30,16 +39,34 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        testTextView = findViewById(R.id.testTextView)
+        val navHostFragment = supportFragmentManager.findFragmentById(
+            R.id.nav_host_container
+        ) as NavHostFragment
+        navController = navHostFragment.navController
 
-        viewModel.response.observe(this, {
-            testTextView.text = it.total_pages.toString()
-        })
+        // Setup the bottom navigation view with navController
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_nav)
+        bottomNavigationView.setupWithNavController(navController)
 
-        viewModel.errorResponse.observe(this, {
-            Toast.makeText(this, "ERROR :$it", Toast.LENGTH_LONG).show()
-        })
+        appBarConfiguration = AppBarConfiguration(
+            setOf(R.id.trendingScreen, R.id.topRatedFragment, R.id.favouritesFragment)
+        )
+        setupActionBarWithNavController(navController, appBarConfiguration)
 
+//        testTextView = findViewById(R.id.testTextView)
+//
+//        viewModel.response.observe(this, {
+//            testTextView.text = it.total_pages.toString()
+//        })
+//
+//        viewModel.errorResponse.observe(this, {
+//            Toast.makeText(this, "ERROR :$it", Toast.LENGTH_LONG).show()
+//        })
+
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp(appBarConfiguration)
     }
 
 
