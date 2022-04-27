@@ -1,0 +1,49 @@
+package com.example.netflixclonekotlintmdb.ui.home
+
+import android.os.Bundle
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
+import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
+import com.example.netflixclonekotlintmdb.R
+
+
+class TopRatedFragment : Fragment() {
+
+    private lateinit var testTopRatedTextView: TextView
+
+    private val viewModel: HomeViewModel by lazy {
+        ViewModelProvider(this)[HomeViewModel::class.java]
+    }
+
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_top_rated, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        //For testing purposes
+        testTopRatedTextView = view.findViewById(R.id.testCallForTopRated)
+
+        viewModel.getTopRatedTVShows()
+
+        viewModel.response.observe(this, {
+            testTopRatedTextView.text = it.total_pages.toString()
+        })
+
+        viewModel.errorResponse.observe(this, {
+            Toast.makeText(this.context, "ERROR :$it", Toast.LENGTH_LONG).show()
+        })
+
+    }
+
+}

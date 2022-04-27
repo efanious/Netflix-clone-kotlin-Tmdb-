@@ -23,6 +23,7 @@
         </activity>
 
         <activity
+            android:theme="@style/AppThemeBottom"
             android:name=".ui.home.HomeActivity"
             android:exported="false" />
     </application>
