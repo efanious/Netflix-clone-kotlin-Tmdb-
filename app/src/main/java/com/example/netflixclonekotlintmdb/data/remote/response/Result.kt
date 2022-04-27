@@ -14,5 +14,7 @@ data class Result(
     val video : Boolean?,
     val vote_average : Double?,
     val vote_count : Int?,
-    val popularity : Double?
+    val popularity : Double?,
+    val original_name : String?,
+
 )
