@@ -8,12 +8,13 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.netflixclonekotlintmdb.R
+import com.example.netflixclonekotlintmdb.adapters.MoviesAdapter
 
 
 class TrendingFragment : Fragment() {
-
-    private lateinit var testTextView: TextView
 
     private val viewModel: HomeViewModel by lazy {
         ViewModelProvider(this)[HomeViewModel::class.java]
@@ -31,13 +32,20 @@ class TrendingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //For testing purposes
-        testTextView = view.findViewById(R.id.testCallForTrending)
+        val trendingRView: RecyclerView = view.findViewById(R.id.trending_recycler_view)
+        trendingRView.layoutManager =
+            GridLayoutManager(this.context, 2)
+
+        val trendingMoviesAdapter = MoviesAdapter()
+
 
         viewModel.getTrendingMovies()
 
         viewModel.response.observe(this, {
-            testTextView.text = it.total_pages.toString()
+
+            trendingMoviesAdapter.data = it.results!!
+            trendingRView.adapter = trendingMoviesAdapter
+
         })
 
         viewModel.errorResponse.observe(this, {

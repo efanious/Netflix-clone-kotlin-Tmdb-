@@ -41,7 +41,6 @@ private val retrofit = Retrofit.Builder()
 
 interface NetworkService {
 
-
     @GET("/3/trending/{media_type}/{time_window}")
     suspend fun getTrendingMovies(
         @Path("media_type") mediaType: String = "all",
@@ -55,6 +54,8 @@ interface NetworkService {
     ): TrendingMoviesResponse
 
 }
+
+  // Images url https://image.tmdb.org/t/p/w500/ + backdrop etc
 
 
 object AppMainApi {
