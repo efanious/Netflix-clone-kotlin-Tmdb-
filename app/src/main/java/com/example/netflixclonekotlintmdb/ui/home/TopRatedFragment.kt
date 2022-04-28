@@ -5,15 +5,22 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.netflixclonekotlintmdb.R
+import com.example.netflixclonekotlintmdb.adapters.MoviesAdapter
 
 
 class TopRatedFragment : Fragment() {
 
-    private lateinit var testTopRatedTextView: TextView
+    private lateinit var progressLoading: ProgressBar
+    private lateinit var errorLayoutLL: LinearLayout
+    private lateinit var errorTextView: TextView
 
     private val viewModel: HomeViewModel by lazy {
         ViewModelProvider(this)[HomeViewModel::class.java]
@@ -31,18 +38,39 @@ class TopRatedFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //For testing purposes
-        testTopRatedTextView = view.findViewById(R.id.testCallForTopRated)
+        progressLoading = view.findViewById(R.id.loading_spinner)
+        errorLayoutLL = view.findViewById(R.id.errorLayout)
+        errorTextView = view.findViewById(R.id.errorText)
 
+        val topRatedView: RecyclerView = view.findViewById(R.id.topRatedRV)
+        topRatedView.layoutManager =
+            GridLayoutManager(this.context, 2)
+        val topRatedAdapter = MoviesAdapter()
+
+        progressLoading.visibility = View.VISIBLE
+        errorLayoutLL.visibility = View.GONE
         viewModel.getTopRatedTVShows()
 
         viewModel.response.observe(this, {
-            testTopRatedTextView.text = it.total_pages.toString()
+
+            progressLoading.visibility = View.GONE
+            errorLayoutLL.visibility = View.GONE
+            topRatedAdapter.data = it.results!!
+            topRatedView.adapter = topRatedAdapter
+
         })
 
-        viewModel.errorResponse.observe(this, {
-            Toast.makeText(this.context, "ERROR :$it", Toast.LENGTH_LONG).show()
+        viewModel.errorTopRatedResponse.observe(this, {
+            progressLoading.visibility = View.GONE
+
+            showError(it)
         })
+
+    }
+
+    private fun showError(error: String? = "Error getting lists") {
+        errorLayoutLL.visibility = View.VISIBLE
+        errorTextView.text = error
 
     }
 

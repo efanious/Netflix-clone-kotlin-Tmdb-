@@ -22,6 +22,12 @@ class HomeViewModel: ViewModel() {
     val errorResponse: LiveData<String>
         get() = _errorResponse
 
+
+    private val _errorTopRatedResponse = MutableLiveData<String>()
+
+    val errorTopRatedResponse: LiveData<String>
+        get() = _errorTopRatedResponse
+
     init {
     }
 
@@ -50,7 +56,7 @@ class HomeViewModel: ViewModel() {
 
             } catch (e: Exception) {
 
-                _errorResponse.value = e.message
+                _errorTopRatedResponse.value = e.message
 
             }
         }
