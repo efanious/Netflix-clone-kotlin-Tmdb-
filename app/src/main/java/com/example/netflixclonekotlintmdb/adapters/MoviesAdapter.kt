@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.netflixclonekotlintmdb.R
 import com.example.netflixclonekotlintmdb.data.remote.response.Result
+import com.example.netflixclonekotlintmdb.ui.moviedetail.MovieDetailActivity
 
 class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
 
@@ -47,10 +48,9 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
 
         private fun onClick(movieClicked: Result) {
 
-            //For detail view
-//            val intent = Intent(itemView.context, MoreInfoActivity::class.java)
-//            intent.putExtra("Movie", movieClicked)
-//            itemView.context.startActivity(intent)
+            val intent = Intent(itemView.context, MovieDetailActivity::class.java)
+            intent.putExtra("Movie", movieClicked)
+            itemView.context.startActivity(intent)
 
         }
 
