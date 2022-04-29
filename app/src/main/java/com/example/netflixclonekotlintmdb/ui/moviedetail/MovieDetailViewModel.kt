@@ -3,50 +3,55 @@ package com.example.netflixclonekotlintmdb.ui.moviedetail
 import android.app.Application
 import android.text.TextUtils
 import androidx.arch.core.util.Function
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.*
+import androidx.room.ColumnInfo
+import androidx.room.PrimaryKey
+import com.example.netflixclonekotlintmdb.data.local.MovieDao
 import com.example.netflixclonekotlintmdb.data.remote.response.Result
+import com.example.netflixclonekotlintmdb.database.Movie
+import kotlinx.coroutines.launch
 
-//class MovieDetailViewModel {
-//}
+class MovieDetailViewModel(
+    private val database: MovieDao,
+    application: Application,
+    private val movie: Result
+) : AndroidViewModel(application) {
 
-class MovieDetailViewModel(application: Application, movie: Result) : AndroidViewModel(application) {
+    fun addOrRemoveAsFav() {
+        viewModelScope.launch {
+            database.insert(
+                Movie(
+                    adult = movie.adult,
+                    backdropPath = movie.backdrop_path,
+                    id = movie.id,
+                    originalLanguage = movie.original_language,
+                    originalTitle = movie.original_title,
+                    overview = movie.overview,
+                    posterPath = movie.poster_path,
+                    releaseDate = movie.release_date,
+                    title = movie.title,
+                    video = movie.video,
+                    voteAverage = movie.vote_average,
+                    voteCount = movie.vote_count,
+                    popularity = movie.popularity,
+                    originalName = movie.original_name,
+                )
+            )
+        }
 
+    }
 
-//    private val mRepository: DataRepository
-//    private val mProducts: LiveData<List<ProductEntity>>
-//    fun setQuery(query: CharSequence?) {
-//        // Save the user's query into the SavedStateHandle.
-//        // This ensures that we retain the value across process death
-//        // and is used as the input into the Transformations.switchMap above
-//        mSavedStateHandler.set(QUERY_KEY, query)
-//    }
+}
 
-    /**
-     * Expose the LiveData Products query so the UI can observe it.
-     */
-//    val products: LiveData<List<Any>>
-//        get() = mProducts
-//
-//    companion object {
-//        private const val QUERY_KEY = "QUERY"
-//    }
-//
-//    init {
-//        mRepository = (application as BasicApp).getRepository()
-//
-//        // Use the savedStateHandle.getLiveData() as the input to switchMap,
-//        // allowing us to recalculate what LiveData to get from the DataRepository
-//        // based on what query the user has entered
-//        mProducts = Transformations.switchMap<CharSequence?, List<ProductEntity>>(
-//            mSavedStateHandler.getLiveData("QUERY", null),
-//            label@ Function<CharSequence?, LiveData<List<ProductEntity>>> { query: CharSequence? ->
-//                if (TextUtils.isEmpty(query)) {
-//                    return@label mRepository.getProducts()
-//                }
-//                mRepository.searchProducts("*$query*")
-//            } as Function<CharSequence?, LiveData<List<ProductEntity>>>)
-//    }
+class MovieDetailViewModelFactory(
+    private val dataSource: MovieDao,
+    private val application: Application,
+    private val movie: Result
+) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(MovieDetailViewModel::class.java)) {
+            return MovieDetailViewModel(dataSource, application, movie) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
+    }
 }

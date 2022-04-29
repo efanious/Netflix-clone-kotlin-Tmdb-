@@ -53,16 +53,6 @@ class HomeActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
 
-//        testTextView = findViewById(R.id.testTextView)
-//
-//        viewModel.response.observe(this, {
-//            testTextView.text = it.total_pages.toString()
-//        })
-//
-//        viewModel.errorResponse.observe(this, {
-//            Toast.makeText(this, "ERROR :$it", Toast.LENGTH_LONG).show()
-//        })
-
     }
 
     override fun onSupportNavigateUp(): Boolean {
