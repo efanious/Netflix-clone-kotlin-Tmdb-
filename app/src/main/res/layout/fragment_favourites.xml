@@ -3,13 +3,44 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingStart="10dp"
+    android:paddingEnd="10dp"
     tools:context=".ui.home.FavouritesFragment">
 
-    <TextView
-        android:id="@+id/sizeOfFavList"
-        android:gravity="center"
+    <LinearLayout
+        android:id="@+id/emptyListLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/empty_image_icon"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center_horizontal"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_heart_empty" />
+
+        <TextView
+            android:id="@+id/empty_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            tools:text="You have no favourites..." />
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/favourites_rv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:text="Favourites" />
+        tools:listitem="@layout/favourite_item_view" />
 
 </FrameLayout>
