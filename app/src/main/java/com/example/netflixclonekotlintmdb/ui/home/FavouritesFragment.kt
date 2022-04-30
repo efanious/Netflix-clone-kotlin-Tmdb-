@@ -5,21 +5,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.netflixclonekotlintmdb.R
-import com.example.netflixclonekotlintmdb.adapters.MoviesAdapter
+import com.example.netflixclonekotlintmdb.adapters.FavouritesAdapter
 import com.example.netflixclonekotlintmdb.database.AppDatabase
-import com.example.netflixclonekotlintmdb.ui.moviedetail.MovieDetailViewModel
-import com.example.netflixclonekotlintmdb.ui.moviedetail.MovieDetailViewModelFactory
 
 
 class FavouritesFragment : Fragment() {
 
-    private lateinit var favSizeTextView: TextView
+    private lateinit var emptyLayout: LinearLayout
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,14 +35,28 @@ class FavouritesFragment : Fragment() {
         val viewModelFactory = FavouritesViewModelFactory(dataSource, application)
         val viewModel = ViewModelProvider(this, viewModelFactory)[FavouritesViewModel::class.java]
 
-        favSizeTextView = view.findViewById(R.id.sizeOfFavList)
+        val favouritesRView: RecyclerView = view.findViewById(R.id.favourites_rv)
+        favouritesRView.layoutManager =
+            LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+
+        val favAdapter = FavouritesAdapter()
+
+        emptyLayout = view.findViewById(R.id.emptyListLayout)
 
         viewModel.checkSizeOfMovies()
 
         viewModel.movie.observe(this, {
 
-            favSizeTextView.text = "List of favs is:  ${it.size}"
-            Toast.makeText(activity, "List of favs is:  ${it.size}", Toast.LENGTH_LONG).show()
+            if(it.isEmpty()){
+                emptyLayout.visibility = View.VISIBLE
+                favouritesRView.visibility = View.GONE
+            } else {
+                emptyLayout.visibility = View.GONE
+                favouritesRView.visibility = View.VISIBLE
+                favAdapter.data = it
+                favouritesRView.adapter = favAdapter
+
+            }
         })
 
     }
