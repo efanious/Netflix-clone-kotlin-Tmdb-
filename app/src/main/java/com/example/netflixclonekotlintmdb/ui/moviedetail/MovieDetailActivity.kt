@@ -47,6 +47,14 @@ class MovieDetailActivity : AppCompatActivity() {
 
         displayInfo(movie)
 
+        viewModel.movInDb.observe(this, {
+            if (it){
+                favButton.text = "Remove as Favourite"
+            } else {
+                favButton.text = "Add to Favourites"
+            }
+        })
+
         favButton.setOnClickListener {
             viewModel.addOrRemoveAsFav()
         }
