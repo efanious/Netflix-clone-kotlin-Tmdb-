@@ -4,16 +4,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.netflixclonekotlintmdb.R
 import com.example.netflixclonekotlintmdb.database.Movie
+import kotlinx.coroutines.launch
 
 
-class FavouritesAdapter : RecyclerView.Adapter<FavouritesAdapter.FavouritesViewHolder>() {
+class FavouritesAdapter(listener : OnItemClickListener ) : RecyclerView.Adapter<FavouritesAdapter.FavouritesViewHolder>() {
 
     var data = listOf<Movie>()
+
+    var mListener = listener
+
+    interface OnItemClickListener {
+        fun onItemClick(item: Movie?)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavouritesViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -23,7 +32,7 @@ class FavouritesAdapter : RecyclerView.Adapter<FavouritesAdapter.FavouritesViewH
 
     override fun onBindViewHolder(holder: FavouritesViewHolder, position: Int) {
         val item = data[position]
-        holder.bind(item)
+        holder.bind(item, mListener)
     }
 
     override fun getItemCount() = data.size
@@ -34,26 +43,26 @@ class FavouritesAdapter : RecyclerView.Adapter<FavouritesAdapter.FavouritesViewH
 
         private val titleText: TextView = itemView.findViewById(R.id.faveTitleTextView)
         private val posterPath: ImageView = itemView.findViewById(R.id.favImageView)
+        private val removeGroupLayout: LinearLayout = itemView.findViewById(R.id.removeLayout)
 
         private var movie: Movie? = null
-//
+
 //        init {
-//            itemView.setOnClickListener {
+//            removeGroupLayout.setOnClickListener {
 //                movie?.let {
 //                    onClick(it)
 //                }
 //            }
 //        }
-//
-//        private fun onClick(movieClicked: Result) {
-//
-//            val intent = Intent(itemView.context, MovieDetailActivity::class.java)
-//            intent.putExtra("Movie", movieClicked)
-//            itemView.context.startActivity(intent)
+
+//        private fun onClick(movieClicked: Movie) {
+//            onItemClicked
+
+////            )
 //
 //        }
-//
-        fun bind(mMovie: Movie) {
+
+        fun bind(mMovie: Movie, listener:  OnItemClickListener ) {
             movie = mMovie
 
             titleText.text = movie!!.originalTitle ?: movie!!.originalName
@@ -63,6 +72,12 @@ class FavouritesAdapter : RecyclerView.Adapter<FavouritesAdapter.FavouritesViewH
                 .load(fullPosterPath)
                 .skipMemoryCache(true)
                 .into(posterPath)
+
+            removeGroupLayout.setOnClickListener {
+                movie?.let {
+                    listener.onItemClick(movie)
+                }
+            }
 
         }
     }

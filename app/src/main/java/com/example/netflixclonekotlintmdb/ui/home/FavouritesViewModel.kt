@@ -19,14 +19,35 @@ class FavouritesViewModel(
     val movie: LiveData<List<Movie>>
         get() = _movies
 
-    init {
-        //checkSizeOfMovies()
-    }
-
     fun checkSizeOfMovies() {
         viewModelScope.launch {
             _movies.value = database.getAllFavourites()
         }
+    }
+
+    fun deleteMovieFromDb(item: Movie?) {
+        viewModelScope.launch {
+            database.deleteMovie(
+                Movie(
+                    adult = item?.adult,
+                    backdropPath = item?.backdropPath,
+                    id = item?.id,
+                    originalLanguage = item?.originalLanguage,
+                    originalTitle = item?.originalTitle,
+                    overview = item?.overview,
+                    posterPath = item?.posterPath,
+                    releaseDate = item?.releaseDate,
+                    title = item?.title,
+                    video = item?.video,
+                    voteAverage = item?.voteAverage,
+                    voteCount = item?.voteCount,
+                    popularity = item?.popularity,
+                    originalName = item?.originalName,
+                )
+            )
+        }
+
+        checkSizeOfMovies()
     }
 
 
