@@ -33,7 +33,7 @@
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="20sp"
-            tools:text="You have no favourites..." />
+            android:text="You have no favourites at this time" />
 
     </LinearLayout>
 

@@ -1,23 +1,30 @@
 package com.example.netflixclonekotlintmdb.ui.home
 
+import android.app.Application
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.netflixclonekotlintmdb.R
 import com.example.netflixclonekotlintmdb.adapters.FavouritesAdapter
 import com.example.netflixclonekotlintmdb.database.AppDatabase
+import com.example.netflixclonekotlintmdb.database.Movie
 
 
-class FavouritesFragment : Fragment() {
+class FavouritesFragment : Fragment(), FavouritesAdapter.OnItemClickListener {
 
     private lateinit var emptyLayout: LinearLayout
+
+    private lateinit var viewModelFactory : FavouritesViewModelFactory
+    private lateinit var viewModel :FavouritesViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,16 +37,19 @@ class FavouritesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //(getActivity().getApplication() as MyApplication)
         val application = requireNotNull(this).requireActivity().application
         val dataSource = AppDatabase.getInstance(application).movieDatabaseDao
-        val viewModelFactory = FavouritesViewModelFactory(dataSource, application)
-        val viewModel = ViewModelProvider(this, viewModelFactory)[FavouritesViewModel::class.java]
+        viewModelFactory = FavouritesViewModelFactory(dataSource, application)
+        viewModel = ViewModelProvider(this, viewModelFactory)[FavouritesViewModel::class.java]
 
         val favouritesRView: RecyclerView = view.findViewById(R.id.favourites_rv)
         favouritesRView.layoutManager =
             LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
 
-        val favAdapter = FavouritesAdapter()
+        val favAdapter = FavouritesAdapter(this)
+
+
 
         emptyLayout = view.findViewById(R.id.emptyListLayout)
 
@@ -61,6 +71,9 @@ class FavouritesFragment : Fragment() {
 
     }
 
+    override fun onItemClick(item: Movie?) {
+        viewModel.deleteMovieFromDb(item)
+    }
 
 
 }
