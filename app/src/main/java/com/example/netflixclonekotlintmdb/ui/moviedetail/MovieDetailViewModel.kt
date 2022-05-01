@@ -17,26 +17,61 @@ class MovieDetailViewModel(
     private val movie: Result
 ) : AndroidViewModel(application) {
 
+    private var _movInDb = MutableLiveData<Boolean>()
+    val movInDb: LiveData<Boolean>
+        get() = _movInDb
+
+    init {
+        viewModelScope.launch {
+            _movInDb.value = movie.id?.let { database.exists(it) }
+        }
+
+    }
+
     fun addOrRemoveAsFav() {
         viewModelScope.launch {
-            database.insert(
-                Movie(
-                    adult = movie.adult,
-                    backdropPath = movie.backdrop_path,
-                    id = movie.id,
-                    originalLanguage = movie.original_language,
-                    originalTitle = movie.original_title,
-                    overview = movie.overview,
-                    posterPath = movie.poster_path,
-                    releaseDate = movie.release_date,
-                    title = movie.title,
-                    video = movie.video,
-                    voteAverage = movie.vote_average,
-                    voteCount = movie.vote_count,
-                    popularity = movie.popularity,
-                    originalName = movie.original_name,
+
+            if (movInDb.value == true) {
+                database.deleteMovie(
+                    Movie(
+                        adult = movie.adult,
+                        backdropPath = movie.backdrop_path,
+                        id = movie.id,
+                        originalLanguage = movie.original_language,
+                        originalTitle = movie.original_title,
+                        overview = movie.overview,
+                        posterPath = movie.poster_path,
+                        releaseDate = movie.release_date,
+                        title = movie.title,
+                        video = movie.video,
+                        voteAverage = movie.vote_average,
+                        voteCount = movie.vote_count,
+                        popularity = movie.popularity,
+                        originalName = movie.original_name,
+                    )
                 )
-            )
+            } else {
+                database.insert(
+                    Movie(
+                        adult = movie.adult,
+                        backdropPath = movie.backdrop_path,
+                        id = movie.id,
+                        originalLanguage = movie.original_language,
+                        originalTitle = movie.original_title,
+                        overview = movie.overview,
+                        posterPath = movie.poster_path,
+                        releaseDate = movie.release_date,
+                        title = movie.title,
+                        video = movie.video,
+                        voteAverage = movie.vote_average,
+                        voteCount = movie.vote_count,
+                        popularity = movie.popularity,
+                        originalName = movie.original_name,
+                    )
+                )
+            }
+
+            _movInDb.value = movie.id?.let { database.exists(it) }
         }
 
     }
