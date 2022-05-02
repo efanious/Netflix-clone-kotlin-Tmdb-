@@ -65,10 +65,20 @@ class TopRatedFragment : Fragment() {
             showError(it)
         })
 
+        viewModel.eventNetworkError.observe(this, { isNetworkError ->
+            if (isNetworkError) {
+                progressLoading.visibility = View.GONE
+                errorLayoutLL.visibility = View.VISIBLE
+            } else {
+                progressLoading.visibility = View.GONE
+                errorLayoutLL.visibility = View.GONE
+            }
+        })
+
     }
 
     private fun showError(error: String? = "Error getting lists") {
-        errorLayoutLL.visibility = View.VISIBLE
+        //errorLayoutLL.visibility = View.VISIBLE
         errorTextView.text = error
 
     }

@@ -18,7 +18,6 @@ private const val BASE_URL = "https://api.themoviedb.org"
 
 private const val API_KEY = ""
 
-
 private val moshi = Moshi.Builder()
     .add(KotlinJsonAdapterFactory())
     .build()
