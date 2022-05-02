@@ -28,6 +28,11 @@ class HomeViewModel: ViewModel() {
     val errorTopRatedResponse: LiveData<String>
         get() = _errorTopRatedResponse
 
+
+    private var _eventNetworkError = MutableLiveData<Boolean>(false)
+    val eventNetworkError: LiveData<Boolean>
+        get() = _eventNetworkError
+
     init {
     }
 
@@ -35,11 +40,11 @@ class HomeViewModel: ViewModel() {
 
         viewModelScope.launch {
             try {
-
+                _eventNetworkError.value = false
                 _response.value = AppMainApi.retrofitService.getTrendingMovies()
 
             } catch (e: Exception) {
-
+                _eventNetworkError.value = true
                 _errorResponse.value = e.message
 
             }
@@ -51,11 +56,12 @@ class HomeViewModel: ViewModel() {
 
         viewModelScope.launch {
             try {
-
+                _eventNetworkError.value = false
                 _response.value = AppMainApi.retrofitService.getTopRatedTV()
 
             } catch (e: Exception) {
 
+                _eventNetworkError.value = true
                 _errorTopRatedResponse.value = e.message
 
             }

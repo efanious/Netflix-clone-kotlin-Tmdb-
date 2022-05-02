@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">NetflixCloneKotlinTMDB</string>
     <string name="login_as_user">Login as user</string>
-    <string name="enter_as_guest">Enter as Guest</string>
-    <string name="netflix_clone">Netflix Clone</string>
+    <string name="enter_as_guest">Enter</string>
+    <string name="netflix_clone">Movie Guide</string>
     <string name="title_activity_main">MainActivity</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
