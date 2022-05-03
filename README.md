@@ -9,4 +9,4 @@ in Kotlin and a reference project. You can create PR's if you see something you 
 It is still ongoing as I will keep updating it to make the code better and add new features as well.
 
 ### UI flows
-[[source](srsts/Screenshot_20220503-135348_NetflixCloneKotlinTMDB.jpg)]
+[(srsts/Screenshot_20220503-135348_NetflixCloneKotlinTMDB.jpg)]
