@@ -10,4 +10,9 @@ It is still ongoing as I will keep updating it to make the code better and add n
 
 ### UI flows
 
-<img src="https://github.com/efanious/Netflix-clone-kotlin-Tmdb-/blob/main/srsts/Screenshot_20220503-135348_NetflixCloneKotlinTMDB.jpg" width="200px" height="auto"/>
+<p>
+    <img src="https://github.com/efanious/Netflix-clone-kotlin-Tmdb-/blob/main/srsts/Screenshot_20220503-135348_NetflixCloneKotlinTMDB.jpg" width="200px" height="auto"/>
+    <img src="https://github.com/efanious/Netflix-clone-kotlin-Tmdb-/blob/main/srsts/Screenshot_20220503-135358_NetflixCloneKotlinTMDB.jpg" width="200px" width="200px" height="auto" hspace="10"/>
+    <img src="https://github.com/efanious/Netflix-clone-kotlin-Tmdb-/blob/main/srsts/Screenshot_20220503-135406_NetflixCloneKotlinTMDB.jpg" width="200px" height="auto" />
+</p>
+
