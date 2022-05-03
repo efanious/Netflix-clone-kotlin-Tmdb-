@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
-import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -66,10 +65,22 @@ class TrendingFragment : Fragment() {
             showError(it)
         })
 
+        viewModel.eventNetworkError.observe(this, { isNetworkError ->
+            if (isNetworkError) {
+                progressLoading.visibility = View.GONE
+                errorLayoutLL.visibility = View.VISIBLE
+                trendingRView.visibility = View.GONE
+            } else {
+                progressLoading.visibility = View.GONE
+                errorLayoutLL.visibility = View.GONE
+                trendingRView.visibility = View.VISIBLE
+            }
+        })
+
+
     }
 
     private fun showError(error: String? = "Error getting lists") {
-        errorLayoutLL.visibility = View.VISIBLE
         errorTextView.text = error
 
     }
