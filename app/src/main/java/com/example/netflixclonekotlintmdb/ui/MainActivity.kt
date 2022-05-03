@@ -21,8 +21,9 @@ class MainActivity : AppCompatActivity() {
                 HomeActivity::class.java
             )
             startActivity(intent)
+
+            // Dispatchers.Main
         }
-
-
     }
+
 }
