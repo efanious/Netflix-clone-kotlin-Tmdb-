@@ -9,4 +9,5 @@ in Kotlin and a reference project. You can create PR's if you see something you 
 It is still ongoing as I will keep updating it to make the code better and add new features as well.
 
 ### UI flows
-[(srsts/Screenshot_20220503-135348_NetflixCloneKotlinTMDB.jpg)]
+
+<img src="https://github.com/efanious/Netflix-clone-kotlin-Tmdb-/blob/main/srsts/Screenshot_20220503-135348_NetflixCloneKotlinTMDB.jpg" width="200px" height="auto"/>
