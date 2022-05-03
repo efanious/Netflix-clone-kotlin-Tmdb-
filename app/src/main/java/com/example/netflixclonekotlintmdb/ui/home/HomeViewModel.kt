@@ -6,11 +6,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.netflixclonekotlintmdb.data.remote.AppMainApi
 import com.example.netflixclonekotlintmdb.data.remote.response.TrendingMoviesResponse
-import kotlinx.coroutines.coroutineScope
+import com.example.netflixclonekotlintmdb.repositories.impl.MovieListRepositoryImpl
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
 class HomeViewModel: ViewModel() {
+
+    private val movieListRepository = MovieListRepositoryImpl(AppMainApi)
 
     private val _response = MutableLiveData<TrendingMoviesResponse>()
 
@@ -41,7 +43,7 @@ class HomeViewModel: ViewModel() {
         viewModelScope.launch {
             try {
                 _eventNetworkError.value = false
-                _response.value = AppMainApi.retrofitService.getTrendingMovies()
+                _response.value = movieListRepository.getTrendingMovies()
 
             } catch (e: Exception) {
                 _eventNetworkError.value = true
@@ -57,7 +59,7 @@ class HomeViewModel: ViewModel() {
         viewModelScope.launch {
             try {
                 _eventNetworkError.value = false
-                _response.value = AppMainApi.retrofitService.getTopRatedTV()
+                _response.value = movieListRepository.getTopRatedTVShows()
 
             } catch (e: Exception) {
 
