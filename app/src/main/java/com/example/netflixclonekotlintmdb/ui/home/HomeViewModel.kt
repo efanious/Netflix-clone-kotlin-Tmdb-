@@ -4,13 +4,17 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.example.netflixclonekotlintmdb.data.remote.AppMainApi
 import com.example.netflixclonekotlintmdb.data.remote.response.TrendingMoviesResponse
 import com.example.netflixclonekotlintmdb.repositories.impl.MovieListRepositoryImpl
+import com.example.netflixclonekotlintmdb.data.remote.response.Result
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
-class HomeViewModel: ViewModel() {
+class HomeViewModel : ViewModel() {
 
     private val movieListRepository = MovieListRepositoryImpl(AppMainApi)
 
@@ -54,19 +58,9 @@ class HomeViewModel: ViewModel() {
     }
 
 
-    fun getTopRatedTVShows() {
+    fun getTopRatedTVShows(): Flow<PagingData<Result>> {
+        _eventNetworkError.value = false
+        return movieListRepository.getTopRatedTVShowsStream().cachedIn(viewModelScope)
 
-        viewModelScope.launch {
-            try {
-                _eventNetworkError.value = false
-                _response.value = movieListRepository.getTopRatedTVShows()
-
-            } catch (e: Exception) {
-
-                _eventNetworkError.value = true
-                _errorTopRatedResponse.value = e.message
-
-            }
-        }
     }
 }

@@ -46,7 +46,8 @@ interface NetworkService {
 
     @GET("/3/tv/top_rated")
     suspend fun getTopRatedTV(
-        @Query("api_key") apiKey: String = API_KEY
+        @Query("api_key") apiKey: String = API_KEY,
+        @Query("page") page: Int
     ): TrendingMoviesResponse
 
 }
