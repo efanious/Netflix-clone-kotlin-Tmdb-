@@ -24,6 +24,7 @@ It is still ongoing as I will keep updating it to make the code better and add n
 
 ## Libraries/Tools used
 * [Room persistence library](https://developer.android.com/jetpack/androidx/releases/room)
+- [Paging](https://developer.android.com/topic/libraries/architecture/paging/)
 * [Glide](https://github.com/bumptech/glide)
 * [MVVM](https://developer.android.com/jetpack/guide?gclid=Cj0KCQiAuvOPBhDXARIsAKzLQ8HZzKJ1ZNhu19088CRAy_5AkXyqkggycLhH85QWnWUDn_OoWmwIUWsaArbwEALw_wcB&gclsrc=aw.ds)
 * [Retrofit](https://square.github.io/retrofit/)
