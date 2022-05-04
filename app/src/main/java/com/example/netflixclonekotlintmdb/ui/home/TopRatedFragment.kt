@@ -9,10 +9,13 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.netflixclonekotlintmdb.R
-import com.example.netflixclonekotlintmdb.adapters.MoviesAdapter
+import com.example.netflixclonekotlintmdb.adapters.TopRatedPagingAdapter
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 
 class TopRatedFragment : Fragment() {
@@ -20,6 +23,8 @@ class TopRatedFragment : Fragment() {
     private lateinit var progressLoading: ProgressBar
     private lateinit var errorLayoutLL: LinearLayout
     private lateinit var errorTextView: TextView
+
+    private val adapter = TopRatedPagingAdapter()
 
     private val viewModel: HomeViewModel by lazy {
         ViewModelProvider(this)[HomeViewModel::class.java]
@@ -44,26 +49,22 @@ class TopRatedFragment : Fragment() {
         val topRatedView: RecyclerView = view.findViewById(R.id.topRatedRV)
         topRatedView.layoutManager =
             GridLayoutManager(this.context, 2)
-        val topRatedAdapter = MoviesAdapter()
+
+        topRatedView.adapter = adapter
 
         progressLoading.visibility = View.VISIBLE
         errorLayoutLL.visibility = View.GONE
-        viewModel.getTopRatedTVShows()
 
-        viewModel.response.observe(this, {
+        lifecycleScope.launch {
 
-            progressLoading.visibility = View.GONE
-            errorLayoutLL.visibility = View.GONE
-            topRatedAdapter.data = it.results!!
-            topRatedView.adapter = topRatedAdapter
+            viewModel.getTopRatedTVShows().collect {
+                item -> adapter.submitData(item)
 
-        })
+                topRatedView.adapter = adapter
+            }
 
-        viewModel.errorTopRatedResponse.observe(this, {
-            progressLoading.visibility = View.GONE
+        }
 
-            showError(it)
-        })
 
         viewModel.eventNetworkError.observe(this, { isNetworkError ->
             if (isNetworkError) {
@@ -77,10 +78,11 @@ class TopRatedFragment : Fragment() {
 
     }
 
-    private fun showError(error: String? = "Error getting lists") {
-        //errorLayoutLL.visibility = View.VISIBLE
-        errorTextView.text = error
 
-    }
+//    private fun showError(error: String? = "Error getting lists") {
+//        //errorLayoutLL.visibility = View.VISIBLE
+//        errorTextView.text = error
+//
+//    }
 
 }
