@@ -66,7 +66,7 @@ class TopRatedFragment : Fragment() {
         }
 
 
-        viewModel.eventNetworkError.observe(this, { isNetworkError ->
+        viewModel.eventNetworkError.observe(viewLifecycleOwner) { isNetworkError ->
             if (isNetworkError) {
                 progressLoading.visibility = View.GONE
                 errorLayoutLL.visibility = View.VISIBLE
@@ -74,7 +74,7 @@ class TopRatedFragment : Fragment() {
                 progressLoading.visibility = View.GONE
                 errorLayoutLL.visibility = View.GONE
             }
-        })
+        }
 
     }
 

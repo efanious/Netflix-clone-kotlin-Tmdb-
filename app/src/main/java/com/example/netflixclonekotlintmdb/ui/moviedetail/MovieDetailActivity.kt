@@ -6,13 +6,10 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
 import com.bumptech.glide.Glide
 import com.example.netflixclonekotlintmdb.R
 import com.example.netflixclonekotlintmdb.data.remote.response.Result
 import com.example.netflixclonekotlintmdb.database.AppDatabase
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
 
 class MovieDetailActivity : AppCompatActivity() {
 
@@ -47,13 +44,13 @@ class MovieDetailActivity : AppCompatActivity() {
 
         displayInfo(movie)
 
-        viewModel.movInDb.observe(this, {
-            if (it){
-                favButton.text = "Remove as Favourite"
+        viewModel.movInDb.observe(this) {
+            if (it) {
+                favButton.text = getString(R.string.remove_as_fav)
             } else {
-                favButton.text = "Add to Favourites"
+                favButton.text = getString(R.string.add_as_fav)
             }
-        })
+        }
 
         favButton.setOnClickListener {
             viewModel.addOrRemoveAsFav()
@@ -67,13 +64,13 @@ class MovieDetailActivity : AppCompatActivity() {
 
         titleTextView.text = movie.original_title ?: movie.original_name
 
-        val fullBackDropPath = "https://image.tmdb.org/t/p/w500" + movie!!.backdrop_path
+        val fullBackDropPath = "https://image.tmdb.org/t/p/w500" + movie.backdrop_path
         Glide.with(this)
             .load(fullBackDropPath)
             .skipMemoryCache(true)
             .into(backdropImageView)
 
-        val posterPath = "https://image.tmdb.org/t/p/w500" + movie!!.poster_path
+        val posterPath = "https://image.tmdb.org/t/p/w500" + movie.poster_path
         Glide.with(this)
             .load(posterPath)
             .skipMemoryCache(true)

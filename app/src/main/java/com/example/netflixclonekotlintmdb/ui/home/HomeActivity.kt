@@ -48,16 +48,16 @@ class HomeActivity : AppCompatActivity() {
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_nav)
         bottomNavigationView.setupWithNavController(navController)
 
-        appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.trendingScreen, R.id.topRatedFragment, R.id.favouritesFragment)
-        )
-        setupActionBarWithNavController(navController, appBarConfiguration)
+//        appBarConfiguration = AppBarConfiguration(
+//            setOf(R.id.trendingScreen, R.id.topRatedFragment, R.id.favouritesFragment)
+//        )
+//        setupActionBarWithNavController(navController, appBarConfiguration)
 
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        return navController.navigateUp(appBarConfiguration)
-    }
+//    override fun onSupportNavigateUp(): Boolean {
+//        return navController.navigateUp(appBarConfiguration)
+//    }
 
 
 }

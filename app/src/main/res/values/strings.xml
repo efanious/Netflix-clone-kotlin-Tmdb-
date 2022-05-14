@@ -15,4 +15,6 @@
     <string name="trending">Trending</string>
     <string name="top_rated">Top Rated</string>
     <string name="favourite">Favourite</string>
+    <string name="remove_as_fav">Remove as Favourite</string>
+    <string name="add_as_fav">Add to Favourites</string>
 </resources>
