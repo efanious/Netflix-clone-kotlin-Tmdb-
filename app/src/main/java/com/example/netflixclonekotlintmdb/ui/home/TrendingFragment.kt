@@ -50,22 +50,22 @@ class TrendingFragment : Fragment() {
         errorLayoutLL.visibility = View.GONE
         viewModel.getTrendingMovies()
 
-        viewModel.response.observe(this, {
+        viewModel.response.observe(viewLifecycleOwner) {
 
             progressLoading.visibility = View.GONE
             errorLayoutLL.visibility = View.GONE
             trendingMoviesAdapter.data = it.results!!
             trendingRView.adapter = trendingMoviesAdapter
 
-        })
+        }
 
-        viewModel.errorResponse.observe(this, {
+        viewModel.errorResponse.observe(viewLifecycleOwner) {
             progressLoading.visibility = View.GONE
 
             showError(it)
-        })
+        }
 
-        viewModel.eventNetworkError.observe(this, { isNetworkError ->
+        viewModel.eventNetworkError.observe(viewLifecycleOwner) { isNetworkError ->
             if (isNetworkError) {
                 progressLoading.visibility = View.GONE
                 errorLayoutLL.visibility = View.VISIBLE
@@ -75,7 +75,7 @@ class TrendingFragment : Fragment() {
                 errorLayoutLL.visibility = View.GONE
                 trendingRView.visibility = View.VISIBLE
             }
-        })
+        }
 
 
     }

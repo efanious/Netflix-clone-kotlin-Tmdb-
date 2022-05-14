@@ -3,9 +3,7 @@ package com.example.netflixclonekotlintmdb.ui.home
 import android.app.Application
 import androidx.lifecycle.*
 import com.example.netflixclonekotlintmdb.data.local.MovieDao
-import com.example.netflixclonekotlintmdb.data.remote.response.Result
 import com.example.netflixclonekotlintmdb.database.Movie
-import com.example.netflixclonekotlintmdb.ui.moviedetail.MovieDetailViewModel
 import kotlinx.coroutines.launch
 
 

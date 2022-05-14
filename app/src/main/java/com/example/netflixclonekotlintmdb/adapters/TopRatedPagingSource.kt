@@ -1,6 +1,5 @@
 package com.example.netflixclonekotlintmdb.adapters
 
-import androidx.paging.LoadState
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.netflixclonekotlintmdb.data.remote.AppMainApi
@@ -32,7 +31,7 @@ class TopRatedPagingSource(private val moviesApi: AppMainApi) : PagingSource<Int
 
             // Since 0 is the lowest page number, return null to signify no more pages should
             // be loaded before it.
-            val prevKey = if (pageNumber > 0) pageNumber - 1 else null
+            //val prevKey = if (pageNumber > 0) pageNumber - 1 else null
 
             // This API defines that it's out of data when a page returns empty. When out of
             // data, we return `null` to signify no more pages should be loaded

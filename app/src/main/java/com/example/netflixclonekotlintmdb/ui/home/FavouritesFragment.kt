@@ -1,15 +1,11 @@
 package com.example.netflixclonekotlintmdb.ui.home
 
-import android.app.Application
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.LinearLayout
-import android.widget.TextView
-import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -55,9 +51,9 @@ class FavouritesFragment : Fragment(), FavouritesAdapter.OnItemClickListener {
 
         viewModel.checkSizeOfMovies()
 
-        viewModel.movie.observe(this, {
+        viewModel.movie.observe(viewLifecycleOwner) {
 
-            if(it.isEmpty()){
+            if (it.isEmpty()) {
                 emptyLayout.visibility = View.VISIBLE
                 favouritesRView.visibility = View.GONE
             } else {
@@ -67,7 +63,7 @@ class FavouritesFragment : Fragment(), FavouritesAdapter.OnItemClickListener {
                 favouritesRView.adapter = favAdapter
 
             }
-        })
+        }
 
     }
 
